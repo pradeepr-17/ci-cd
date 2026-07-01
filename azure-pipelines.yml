@@ -5,22 +5,19 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: CopyFiles@2
+- task: ArchiveFiles@2
+  displayName: 'Create ZIP package'
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    rootFolderOrFile: '$(Build.SourcesDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/website.zip'
+    replaceExistingArchive: true
 
 - task: AzureWebApp@1
+  displayName: 'Deploy to Azure App Service'
   inputs:
     azureSubscription: 'Azure for Students(9cbd3592-c2b5-4ba3-b3e1-475bfa93e194)'
     appType: 'webAppLinux'
     appName: 'myweb12'
-    package: '$(Pipeline.Workspace)/drop'
-    runtimeStack: 'PHP|8.3'
+    package: '$(Build.ArtifactStagingDirectory)/website.zip'
