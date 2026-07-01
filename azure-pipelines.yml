@@ -16,3 +16,11 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure for Students(9cbd3592-c2b5-4ba3-b3e1-475bfa93e194)'
+    appType: 'webAppLinux'
+    appName: 'myweb12'
+    package: '$(Pipeline.Workspace)/drop'
+    runtimeStack: 'PHP|8.3'
