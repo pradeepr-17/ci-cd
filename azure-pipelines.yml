@@ -19,5 +19,5 @@ steps:
   inputs:
     azureSubscription: 'Azure for Students(9cbd3592-c2b5-4ba3-b3e1-475bfa93e194)'
     appType: 'webAppLinux'
-    appName: 'myweb12'
+    appName: 'webb17'
     package: '$(Build.ArtifactStagingDirectory)/website.zip'
