@@ -5,10 +5,24 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: CopyFiles@2
+  displayName: 'Copy website files'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: |
+      index.html
+      style.css
+      *.js
+      *.png
+      *.jpg
+      *.jpeg
+      *.gif
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
 - task: ArchiveFiles@2
   displayName: 'Create ZIP package'
   inputs:
-    rootFolderOrFile: '$(Build.SourcesDirectory)'
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/website.zip'
